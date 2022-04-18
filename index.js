@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 2020;
+const PORT = process.env.PORT || 2020;
 //imports
 const { userInfo } = require("./db_access/user_dao");
 
