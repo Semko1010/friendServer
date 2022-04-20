@@ -7,10 +7,10 @@ app.use(cors());
 //imports
 const { userInfo, createNewUser } = require("./db_access/user_dao");
 const { registerUser } = require("./services/registerUser");
-
+const loginUser = require("./services/loginUser");
 //Post
 app.post("/api/friend/users/register", (req, res) => {
-	const userName = req.body.userName;
+	const userName = req.body.userName.trim().toLowerCase();
 	const email = req.body.email.trim().toLowerCase();
 	const img = req.body.img;
 	const password = req.body.password.trim();
@@ -22,6 +22,19 @@ app.post("/api/friend/users/register", (req, res) => {
 		})
 		.catch(err => {
 			res.send({ userExist: true });
+		});
+});
+
+app.post("/api/friend/users/login", (req, res) => {
+	const email = req.body.email.trim().toLowerCase();
+	const password = req.body.password.trim();
+
+	loginUser({ email, password })
+		.then(token => {
+			res.send(token);
+		})
+		.catch(err => {
+			res.send({ error: err });
 		});
 });
 
