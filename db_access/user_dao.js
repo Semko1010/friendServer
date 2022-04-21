@@ -34,11 +34,9 @@ async function userInfo(userobjid) {
 }
 
 //addProduct
-async function addAmount(amount) {
+async function addUserLocation(userLocation) {
 	const db = await _getDB();
-	const Product = await db
-		.collection(`amount/${amount.token.userObjId}`)
-		.insertOne(amount);
+	const Product = await db.collection("usersInfos").insertOne(userLocation);
 	return Product;
 }
 //user.object_id
@@ -46,7 +44,7 @@ async function addAmount(amount) {
 module.exports = {
 	createNewUser,
 	checkEmailExists,
-	addAmount,
+	addUserLocation,
 	findOneUser,
 	userInfo,
 };

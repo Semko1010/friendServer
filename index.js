@@ -5,9 +5,11 @@ const cors = require("cors");
 app.use(express.json({ limit: "16mb" }));
 app.use(cors());
 //imports
-const { userInfo, createNewUser } = require("./db_access/user_dao");
+const { userInfo, addUserLocation } = require("./db_access/user_dao");
 const { registerUser } = require("./services/registerUser");
 const loginUser = require("./services/loginUser");
+const { deleteAmount } = require("./services/deleteAmount");
+
 //Post
 app.post("/api/friend/users/register", (req, res) => {
 	const userName = req.body.userName.trim().toLowerCase();
@@ -38,8 +40,15 @@ app.post("/api/friend/users/login", (req, res) => {
 		});
 });
 
-app.post("/api/friend/users/userInfo", (req, res) => {
-	res.send("works");
+app.post("/api/friend/users/userLocation", (req, res) => {
+	const userLocation = req.body;
+	addUserLocation(userLocation).then(res.send({ locationSet: true }));
+});
+
+app.post("/api/friend/users/deleteLocation", (req, res) => {
+	const idGps = req.body.userObjId;
+
+	deleteAmount(idGps).then(res.send({ locationRemoved: true }));
 });
 
 //get
