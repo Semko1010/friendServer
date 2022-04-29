@@ -2,7 +2,16 @@ const { createNewUser, checkEmailExists } = require("../db_access/user_dao");
 const { hashPassword } = require("../utillity/pwHash");
 // const sendEmail = require("./sendEmail");
 
-async function registerUser({ userName, email, password, img, verify }) {
+async function registerUser({
+	userName,
+	email,
+	password,
+	img,
+	verify,
+	age,
+	hobby,
+	desc,
+}) {
 	//checkEmailExist
 
 	const foundUser = await checkEmailExists(email);
@@ -19,6 +28,9 @@ async function registerUser({ userName, email, password, img, verify }) {
 		email,
 		passwordHash,
 		img,
+		age,
+		hobby,
+		desc,
 		verify,
 	};
 	console.log(newUser.email);

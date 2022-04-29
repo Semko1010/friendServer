@@ -9,18 +9,21 @@ const { userInfo, addUserLocation } = require("./db_access/user_dao");
 const { registerUser } = require("./services/registerUser");
 const loginUser = require("./services/loginUser");
 const { deleteAmount } = require("./services/deleteAmount");
-
+const { verifyToken } = require("./services/verifyToken");
 //Post
 app.post("/api/friend/users/register", (req, res) => {
 	const userName = req.body.userName.trim().toLowerCase();
 	const email = req.body.email.trim().toLowerCase();
-	const img = req.body.img;
+	const img = req.body.props.infos.img;
+	const age = req.body.props.infos.age;
+	const hobby = req.body.props.infos.hobby;
+	const desc = req.body.props.infos.desc;
 	const password = req.body.password.trim();
 	const verify = req.body.verify;
 
-	registerUser({ userName, email, img, password, verify })
+	registerUser({ userName, email, img, password, verify, age, hobby, desc })
 		.then(() => {
-			res.send({ userExist: false });
+			res.send({ userCreated: true });
 		})
 		.catch(err => {
 			res.send({ userExist: true });
@@ -52,7 +55,7 @@ app.post("/api/friend/users/deleteLocation", (req, res) => {
 });
 
 //get
-app.get("/api/friend/users/userInfo", (req, res) => {
+app.get("/api/friend/users/userInfo", verifyToken, (req, res) => {
 	userInfo().then(info => {
 		res.send(info);
 	});

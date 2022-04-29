@@ -37,14 +37,14 @@ async function LoginUser({ email, password }) {
 	}
 	//else generiere token
 	const token = generateToken(foundUser);
-	console.log();
+
 	const userObjId = foundUser._id;
 	const verifyUser = foundUser.verify;
 	const img = foundUser.img;
 	const userName = foundUser.userName;
 	const age = foundUser.age;
 	const hobby = foundUser.hobby;
-	console.log(foundUser);
+
 	return { token, userObjId, verifyUser, img, userName, age, hobby };
 }
 
