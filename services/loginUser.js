@@ -44,7 +44,7 @@ async function LoginUser({ email, password }) {
 	const userName = foundUser.userName;
 	const age = foundUser.age;
 	const hobby = foundUser.hobby;
-	const description = foundUser.desc;
+	const desc = foundUser.desc;
 	return {
 		token,
 		userObjId,
@@ -53,7 +53,7 @@ async function LoginUser({ email, password }) {
 		userName,
 		age,
 		hobby,
-		description,
+		desc,
 	};
 }
 

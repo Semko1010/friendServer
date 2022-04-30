@@ -45,6 +45,7 @@ app.post("/api/friend/users/login", (req, res) => {
 
 app.post("/api/friend/users/userLocation", (req, res) => {
 	const userLocation = req.body;
+	console.log(userLocation);
 	addUserLocation(userLocation).then(res.send({ locationSet: true }));
 });
 
