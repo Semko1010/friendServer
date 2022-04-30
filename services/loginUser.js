@@ -44,8 +44,17 @@ async function LoginUser({ email, password }) {
 	const userName = foundUser.userName;
 	const age = foundUser.age;
 	const hobby = foundUser.hobby;
-
-	return { token, userObjId, verifyUser, img, userName, age, hobby };
+	const description = foundUser.desc;
+	return {
+		token,
+		userObjId,
+		verifyUser,
+		img,
+		userName,
+		age,
+		hobby,
+		description,
+	};
 }
 
 module.exports = LoginUser;
