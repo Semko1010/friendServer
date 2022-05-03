@@ -26,7 +26,7 @@ async function findOneUser(id) {
 
 	return favorites;
 }
-async function userInfo(userobjid) {
+async function gpsLocation(userobjid) {
 	const db = await _getDB();
 	const info = await db.collection("usersInfos").find().toArray();
 
@@ -37,6 +37,7 @@ async function userInfo(userobjid) {
 async function addUserLocation(userLocation) {
 	const db = await _getDB();
 	const Product = await db.collection("usersInfos").insertOne(userLocation);
+
 	return Product;
 }
 //user.object_id
@@ -46,5 +47,5 @@ module.exports = {
 	checkEmailExists,
 	addUserLocation,
 	findOneUser,
-	userInfo,
+	gpsLocation,
 };

@@ -5,7 +5,7 @@ const cors = require("cors");
 app.use(express.json({ limit: "16mb" }));
 app.use(cors());
 //imports
-const { userInfo, addUserLocation } = require("./db_access/user_dao");
+const { gpsLocation, addUserLocation } = require("./db_access/user_dao");
 const { registerUser } = require("./services/registerUser");
 const loginUser = require("./services/loginUser");
 const { deleteAmount } = require("./services/deleteAmount");
@@ -56,8 +56,8 @@ app.post("/api/friend/users/deleteLocation", (req, res) => {
 });
 
 //get
-app.get("/api/friend/users/userInfo", verifyToken, (req, res) => {
-	userInfo().then(info => {
+app.get("/api/friend/users/gpsLocation", verifyToken, (req, res) => {
+	gpsLocation().then(info => {
 		res.send(info);
 	});
 });
