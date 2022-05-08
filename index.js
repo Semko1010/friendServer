@@ -4,12 +4,18 @@ const PORT = process.env.PORT || 2020;
 const cors = require("cors");
 app.use(express.json({ limit: "16mb" }));
 app.use(cors());
+
 //imports
-const { gpsLocation, addUserLocation } = require("./db_access/user_dao");
+const {
+	gpsLocation,
+	addUserLocation,
+	loggedUserInfos,
+} = require("./db_access/user_dao");
 const { registerUser } = require("./services/registerUser");
 const loginUser = require("./services/loginUser");
 const { deleteAmount } = require("./services/deleteAmount");
 const { verifyToken } = require("./services/verifyToken");
+
 //Post
 app.post("/api/friend/users/register", (req, res) => {
 	const userName = req.body.userName.trim().toLowerCase();
@@ -56,9 +62,18 @@ app.post("/api/friend/users/deleteLocation", (req, res) => {
 });
 
 //get
+
 app.get("/api/friend/users/gpsLocation", verifyToken, (req, res) => {
 	gpsLocation().then(info => {
 		res.send(info);
+	});
+});
+
+app.get("/api/friend/users/loggedUserInfo", verifyToken, (req, res) => {
+	const id = req.headers.userobjid;
+
+	loggedUserInfos(id).then(user => {
+		res.send(user);
 	});
 });
 

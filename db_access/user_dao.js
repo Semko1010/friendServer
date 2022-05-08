@@ -17,14 +17,14 @@ async function checkEmailExists(email) {
 	return user;
 }
 //get user
-async function findOneUser(id) {
+async function loggedUserInfos(id) {
 	const db = await _getDB();
 	const foundUser = await db
 		.collection("users")
 		.findOne({ _id: new ObjectId(id) });
-	const favorites = foundUser;
+	const user = foundUser;
 
-	return favorites;
+	return user;
 }
 async function gpsLocation(userobjid) {
 	const db = await _getDB();
@@ -46,6 +46,6 @@ module.exports = {
 	createNewUser,
 	checkEmailExists,
 	addUserLocation,
-	findOneUser,
+	loggedUserInfos,
 	gpsLocation,
 };

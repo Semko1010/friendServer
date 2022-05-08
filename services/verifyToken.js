@@ -14,10 +14,10 @@ const verifyToken = (req, res, next) => {
 			req.userId = jwtPayload.sub;
 			next();
 		} catch (error) {
-			res.status(403).send({ err: "Token invalid" });
+			res.send({ err: "Token invalid" });
 		}
 	} else {
-		res.status(403).send({ err: "Error, no token" });
+		res.send({ err: "Error, no token" });
 	}
 };
 
