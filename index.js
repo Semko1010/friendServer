@@ -10,6 +10,7 @@ const {
 	gpsLocation,
 	addUserLocation,
 	loggedUserInfos,
+	changeUserInfos,
 } = require("./db_access/user_dao");
 const { registerUser } = require("./services/registerUser");
 const loginUser = require("./services/loginUser");
@@ -61,15 +62,26 @@ app.post("/api/friend/users/deleteLocation", (req, res) => {
 	deleteAmount(idGps).then(res.send({ locationRemoved: true }));
 });
 
+app.post("/api/friend/users/changeUserInfos", (req, res) => {
+	const userName = req.body.userName;
+	const hobby = req.body.hobby;
+	const desc = req.body.desc;
+	const userObjId = req.headers.userobjid;
+
+	changeUserInfos(userName, hobby, desc, userObjId).then(
+		res.send({ infosUpdate: true }),
+	);
+});
+
 //get
 
-app.get("/api/friend/users/gpsLocation", verifyToken, (req, res) => {
+app.get("/api/friend/users/gpsLocation", (req, res) => {
 	gpsLocation().then(info => {
 		res.send(info);
 	});
 });
 
-app.get("/api/friend/users/loggedUserInfo", verifyToken, (req, res) => {
+app.get("/api/friend/users/loggedUserInfo", (req, res) => {
 	const id = req.headers.userobjid;
 
 	loggedUserInfos(id).then(user => {

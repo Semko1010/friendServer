@@ -40,7 +40,28 @@ async function addUserLocation(userLocation) {
 
 	return Product;
 }
-//user.object_id
+
+async function changeUserInfos(userName, hobby, desc, userObjId) {
+	const db = await _getDB();
+	// const changeInfos = await db.collection("users").updateOne(
+	// 	{
+	// 		_id: ObjectId(userObjId),
+	// 	},
+	// 	{
+	// 		$push: {
+	// 			userName: userName,
+	// 			hobby: hobby,
+	// 			desc: desc,
+	// 		},
+	// 	},
+	// );
+	const changeInfos = await db.collection("users").updateOne(
+		{
+			_id: new ObjectId(userObjId),
+		}, //welche Object_id soll geupdated werden
+		{ $set: { userName: userName, hobby: hobby, desc: desc } },
+	);
+}
 
 module.exports = {
 	createNewUser,
@@ -48,4 +69,5 @@ module.exports = {
 	addUserLocation,
 	loggedUserInfos,
 	gpsLocation,
+	changeUserInfos,
 };
