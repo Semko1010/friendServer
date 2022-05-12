@@ -62,7 +62,7 @@ app.post("/api/friend/users/deleteLocation", (req, res) => {
 	deleteAmount(idGps).then(res.send({ locationRemoved: true }));
 });
 
-app.post("/api/friend/users/changeUserInfos", (req, res) => {
+app.post("/api/friend/users/changeUserInfos", verifyToken, (req, res) => {
 	const userName = req.body.userName;
 	const hobby = req.body.hobby;
 	const desc = req.body.desc;
@@ -75,13 +75,13 @@ app.post("/api/friend/users/changeUserInfos", (req, res) => {
 
 //get
 
-app.get("/api/friend/users/gpsLocation", (req, res) => {
+app.get("/api/friend/users/gpsLocation", verifyToken, (req, res) => {
 	gpsLocation().then(info => {
 		res.send(info);
 	});
 });
 
-app.get("/api/friend/users/loggedUserInfo", (req, res) => {
+app.get("/api/friend/users/loggedUserInfo", verifyToken, (req, res) => {
 	const id = req.headers.userobjid;
 
 	loggedUserInfos(id).then(user => {
