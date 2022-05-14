@@ -67,7 +67,7 @@ app.post("/api/friend/users/changeUserInfos", verifyToken, (req, res) => {
 	const hobby = req.body.hobby;
 	const desc = req.body.desc;
 	const userObjId = req.headers.userobjid;
-
+	console.log(userObjId);
 	changeUserInfos(userName, hobby, desc, userObjId).then(
 		res.send({ infosUpdate: true }),
 	);
