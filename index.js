@@ -35,10 +35,6 @@ const loginUser = require("./services/loginUser");
 const { deleteAmount } = require("./services/deleteAmount");
 const { verifyToken } = require("./services/verifyToken");
 
-io.on("connection", socket => {
-	console.log(socket.id);
-});
-
 //Post
 app.post("/api/friend/users/register", (req, res) => {
 	const userName = req.body.userName.trim().toLowerCase();
