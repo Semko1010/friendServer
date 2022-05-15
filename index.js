@@ -5,6 +5,24 @@ const cors = require("cors");
 app.use(express.json({ limit: "16mb" }));
 app.use(cors());
 
+//socket.io
+const server = require("http").createServer(app);
+const io = require("socket.io")(server, {
+	cors: {
+		origin: "*",
+		methods: ["GET", "POST"],
+		allowedHeaders: ["my-custom-header"],
+		credentials: true,
+	},
+});
+
+io.on("connection", socket => {
+	console.log(socket.id);
+	socket.on("chat", data => {
+		socket.broadcast.emit("reciveChat", data);
+	});
+});
+
 //imports
 const {
 	gpsLocation,
@@ -16,6 +34,10 @@ const { registerUser } = require("./services/registerUser");
 const loginUser = require("./services/loginUser");
 const { deleteAmount } = require("./services/deleteAmount");
 const { verifyToken } = require("./services/verifyToken");
+
+io.on("connection", socket => {
+	console.log(socket.id);
+});
 
 //Post
 app.post("/api/friend/users/register", (req, res) => {
@@ -89,4 +111,4 @@ app.get("/api/friend/users/loggedUserInfo", verifyToken, (req, res) => {
 	});
 });
 
-app.listen(PORT, () => console.log("Server läuft auf Port", PORT));
+server.listen(PORT, () => console.log("Server läuft auf Port", PORT));
