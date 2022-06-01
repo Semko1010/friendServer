@@ -7,13 +7,49 @@ app.use(cors());
 
 //socket.io
 const server = require("http").createServer(app);
-const io = require("socket.io")(server);
 
-io.on("connection", socket => {
-	console.log(socket.id);
-	socket.on("chat", data => {
-		io.emit("chat", data);
+const io = require("socket.io")(server, {
+	cors: {
+		origin: "*",
+	},
+});
+const users = [];
+io.on("connection", client => {
+	client.on("username", (username, userObjId) => {
+		const user = {
+			name: username,
+			id: client.id,
+			userObjId: userObjId,
+		};
+		console.log(user);
+		users.filter(item => {
+			if (item.userObjId === userObjId) {
+				const indexOfUser = users.indexOf(item);
+				users.splice(indexOfUser, 1);
+			}
+		});
+		users.push(user);
+		console.log(users);
+		client.emit("connected", user);
+		io.emit("users", Object.values(users));
 	});
+	client.on("join_room", data => {
+		client.join(data);
+
+		console.log(`User with id ${client.id} join the room ${data}`);
+	});
+
+	client.on("chat", (message, info) => {
+		console.log("id", info);
+		client.broadcast.to(info).emit("recieved_message", message);
+	});
+
+	// client.on("disconnect", data => {
+	// 	console.log(data);
+	// 	const username = users[client.id];
+	// 	delete users[client.id];
+	// 	client.emit("disconnected", client.id);
+	// });
 });
 
 //imports

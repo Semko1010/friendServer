@@ -8,9 +8,9 @@ io.on("connection", socket => {
 	console.log(socket.id);
 
 	socket.on("chat", data => {
-		// socket.broadcast.emit("reciveChat", data);
+		socket.broadcast.emit("reciveChat", data);
 		console.log(data);
-		io.emit("chat", data);
+		socket.emit("chat", data);
 	});
 });
 
