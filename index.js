@@ -21,7 +21,7 @@ io.on("connection", client => {
 			id: client.id,
 			userObjId: userObjId,
 		};
-		console.log(user);
+
 		users.filter(item => {
 			if (item.userObjId === userObjId) {
 				const indexOfUser = users.indexOf(item);
@@ -29,26 +29,39 @@ io.on("connection", client => {
 			}
 		});
 		users.push(user);
-		console.log(users);
+
 		client.emit("connected", user);
 		io.emit("users", Object.values(users));
 	});
 	client.on("join_room", data => {
 		client.join(data);
+		console.log(client.rooms);
 
 		console.log(`User with id ${client.id} join the room ${data}`);
 	});
+	client.on("leave_room", data => {
+		client.leave(data);
+		console.log(data);
+		console.log(client.rooms);
+		console.log(`User with id ${client.id} Leave the room ${data}`);
+	});
 
-	client.on("chat", (message, info) => {
-		console.log("id", info);
-		client.broadcast.to(info).emit("recieved_message", message);
+	client.on("chat", (message, info, token) => {
+		console.log(info);
+		client.to(info).emit("recieved_message", { message, info, token });
 	});
 
 	// client.on("disconnect", data => {
-	// 	console.log(data);
-	// 	const username = users[client.id];
-	// 	delete users[client.id];
-	// 	client.emit("disconnected", client.id);
+	// 	console.log("Users Disconect", client.id);
+	// 	users.find(id => {
+	// 		if (client.id === id.id) {
+	// 			console.log("DC USER", id);
+	// 		}
+	// 	});
+
+	// 	// const username = users[client.id];
+	// 	// delete users[client.id];
+	// 	// io.emit("disconnected", users);
 	// });
 });
 
