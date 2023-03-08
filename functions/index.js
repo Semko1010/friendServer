@@ -139,6 +139,7 @@ app.post("/api/friend/users/changeUserInfos", verifyToken, (req, res) => {
 app.get("/", (req, res) => {
 	res.send("info");
 });
+
 app.get("/api/friend/users/gpsLocation", verifyToken, (req, res) => {
 	gpsLocation().then(info => {
 		res.send(info);
