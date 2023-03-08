@@ -41,14 +41,14 @@ async function LoginUser({ email, password }) {
 	const userObjId = foundUser._id;
 	const verifyUser = foundUser.verify;
 	const img = foundUser.img;
-	const email = foundUser.email;
+	const emails = foundUser.email;
 	const userName = foundUser.userName;
 	const age = foundUser.age;
 	const hobby = foundUser.hobby;
 	const desc = foundUser.desc;
 	return {
 		token,
-		email,
+		emails,
 		userObjId,
 		verifyUser,
 		img,
