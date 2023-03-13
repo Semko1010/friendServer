@@ -103,6 +103,7 @@ app.post("/api/friend/users/login", (req, res) => {
 
 	loginUser({ email, password })
 		.then(token => {
+			console.log("token", token);
 			res.send(token);
 		})
 		.catch(err => {
